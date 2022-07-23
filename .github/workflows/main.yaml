@@ -1,0 +1,42 @@
+---
+# Github actions workflow file
+name: "pyproject-cookiecutter"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+        # poetry-versions: []
+
+    steps:
+      # ----------------------------------------------
+      #       check-out repo and set-up python
+      # ----------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      # ----------------------------------------------
+      #          install linters
+      # ----------------------------------------------
+      - name: Install linters
+        run: python -m pip install black pylama yamllint bandit
+      # ----------------------------------------------
+      #              run test suite
+      # ----------------------------------------------
+      - name: Run tests
+        run: |
+          make black
+          make pylama
+          make yamllint

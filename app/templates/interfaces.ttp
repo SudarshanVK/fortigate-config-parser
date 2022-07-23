@@ -1,0 +1,100 @@
+config system interface
+<group>
+    edit "{{interface}}"
+        set vdom "{{vdom}}"
+        set vrf {{vrf}}
+        set fortilink {{fortilink}}
+        set mode {{static}}
+        set dhcp-relay-interface-select-method {{dhcp-relay-interface-select-method}}
+        set dhcp-relay-service {{dhcp-relay-service}}
+        set management-ip {{ management_ip | ORPHRASE }}
+        set ip {{ ip | ORPHRASE }}
+        set allowaccess {{ allowaccess | ORPHRASE }}
+        set fail-detect {{fail-detect}}
+        set arpforward {{arpforward}}
+        set broadcast-forward {{broadcast-forward}}
+        set bfd {{bfd}}
+        set l2forward {{l2forward}}
+        set icmp-send-redirect {{icmp-send-redirect}}
+        set icmp-accept-redirect {{icmp-accept-redirect}}
+        set vlanforward {{vlanforward}}
+        set stpforward {{stpforward}}
+        set ips-sniffer-mode {{ips-sniffer-mode}}
+        set ident-accept {{ident-accept}}
+        set ipmac {{ipmac}}
+        set subst {{subst}}
+        set substitute-dst-mac {{substitute-dst-mac}}
+        set status {{status}}
+        set netbios-forward {{netbios-forward}}
+        set wins-ip {{wins-ip}}
+        set type {{type}}
+        set netflow-sampler {{netflow-sampler}}
+        set sflow-sampler {{sflow-sampler}}
+        set src-check {{src-check}}
+        set sample-rate {{sample-rate}}
+        set polling-interval {{polling-interval}}
+        set sample-direction {{sample-direction}}
+        set explicit-web-proxy {{explicit-web-proxy}}
+        set explicit-ftp-proxy {{explicit-ftp-proxy}}
+        set proxy-captive-portal {{proxy-captive-portal}}
+        set tcp-mss {{tcp-mss}}
+        set inbandwidth {{inbandwidth}}
+        set outbandwidth {{outbandwidth}}
+        set egress-shaping-profile {{egress-shaping-profile}}
+        set ingress-shaping-profile {{ingress-shaping-profile}}
+        set disconnect-threshold {{disconnect-threshold}}
+        set weight {{weight}}
+        set external {{external}}
+        set description {{description}}
+        set alias {{alias}}
+        set security-mode {{security-mode}}
+        set device-identification {{device-identification}}
+        set lldp-reception {{lldp-reception}}
+        set lldp-transmission {{lldp-transmission}}
+        set estimated-upstream-bandwidth {{estimated-upstream-bandwidth}}
+        set estimated-downstream-bandwidth {{estimated-downstream-bandwidth}}
+        set measured-upstream-bandwidth {{measured-upstream-bandwidth}}
+        set measured-downstream-bandwidth {{measured-downstream-bandwidth}}
+        set bandwidth-measure-time {{bandwidth-measure-time}}
+        set monitor-bandwidth {{monitor-bandwidth}}
+        set vrrp-virtual-mac {{vrrp-virtual-mac}}
+        set role {{role}}
+        set snmp-index {{snmp-index}}
+        set secondary-IP {{secondary-IP}}
+        set preserve-session-route {{preserve-session-route}}
+        set auto-auth-extension-device {{auto-auth-extension-device}}
+        set ap-discover {{ap-discover}}
+        set ip-managed-by-fortiipam {{ip-managed-by-fortiipam}}
+        set switch-controller-mgmt-vlan {{switch-controller-mgmt-vlan}}
+        set switch-controller-igmp-snooping-proxy {{switch-controller-igmp-snooping-proxy}}
+        set switch-controller-igmp-snooping-fast-leave {{switch-controller-igmp-snooping-fast-leave}}
+        set swc-first-create {{swc-first-create}}
+        <group name = "{{ name }}">
+        config {{ name }}
+            set ip6-mode {{ip6-mode}}
+            set nd-mode {{nd-mode}}
+            set ip6-address {{ip6-address}}
+            set icmp6-send-redirect {{icmp6-send-redirect}}
+            set ra-send-mtu {{ra-send-mtu}}
+            set ip6-reachable-time {{ip6-reachable-time}}
+            set ip6-retrans-time {{ip6-retrans-time}}
+            set ip6-hop-limit {{ip6-hop-limit}}
+            set dhcp6-prefix-delegation {{dhcp6-prefix-delegation}}
+            set dhcp6-information-request {{dhcp6-information-request}}
+            set vrrp-virtual-mac6 {{vrrp-virtual-mac6}}
+            set vrip6_link_local {{vrip6_link_local}}
+            set ip6-send-adv {{ip6-send-adv}}
+            set autoconf {{autoconf}}
+            set dhcp6-relay-service {{dhcp6-relay-service}}
+        </group>
+        set priority {{priority}}
+        set dhcp-relay-request-all-server {{dhcp-relay-request-all-server}}
+        set dhcp-client-identifier {{dhcp-client-identifier}}
+        set dhcp-renew-time {{dhcp-renew-time}}
+        set dns-server-override {{dns-server-override}}
+        set speed {{speed}}
+        set mtu-override {{mtu-override}}
+        set wccp {{wccp}}
+        set drop-overlapped-fragment {{drop-overlapped-fragment}}
+        set drop-fragment {{drop-fragment}}
+</group>

@@ -1,6 +1,8 @@
-config system interface
-<group>
-    edit "{{interface}}"
+## ------------------------- Interfaces ---------------------------
+<group name ="interfaces">
+config system interface {{ _start_ }}
+    <group name="data">
+    edit "{{interface }}"
         set vdom "{{vdom}}"
         set vrf {{vrf}}
         set fortilink {{fortilink}}
@@ -28,6 +30,7 @@ config system interface
         set netbios-forward {{netbios-forward}}
         set wins-ip {{wins-ip}}
         set type {{type}}
+        set member "{{ members | ORPHRASE }}"
         set netflow-sampler {{netflow-sampler}}
         set sflow-sampler {{sflow-sampler}}
         set src-check {{src-check}}
@@ -97,4 +100,26 @@ config system interface
         set wccp {{wccp}}
         set drop-overlapped-fragment {{drop-overlapped-fragment}}
         set drop-fragment {{drop-fragment}}
+    next {{ _end_ }}
+    </group>
+end {{ _end_ }}
+</group>
+
+
+## ------------------------- Firewall Objects ---------------------------
+<group name="firewall_objects">
+config firewall address {{ _start_ }}
+    <group name="data">
+    edit {{ name }}
+        set uuid {{ uuid }}
+        set type {{ type }}
+        set comment {{ comment }}
+        set associated-interface {{ associated-interface }}
+        set color {{color}}
+        set allow-routing {{allow-routing}}
+        set fabric-object {{fabric-object}}
+        set subnet {{ subnet | ORPHRASE }}
+    next {{ _end_ }}
+    </group>
+end {{ _end_ }}
 </group>

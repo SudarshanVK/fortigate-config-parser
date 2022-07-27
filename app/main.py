@@ -3,10 +3,13 @@ from modules.mics.main import (
     write_json,
     write_json_as_yaml,
     write_dict_to_excel,
-    raise_exception_exit
+    raise_exception_continue,
 )
 from rich.console import Console
 from rich.prompt import Prompt
+import os
+import shutil
+import openpyxl
 
 console = Console()
 
@@ -14,31 +17,57 @@ console = Console()
 from ttp import ttp
 
 
-def parse_configuration(configuration: str, template_file: str) -> dict:
-    template = read_file(f"./templates/{template_file}.ttp")
+def parse_configuration(configuration: str, template: str) -> dict:
     try:
         parser = ttp(data=configuration, template=template)
         parser.parse()
-        parsed_configuration = parser.result()[0][0]
-        write_json(f"./outputs/json/{template_file}.json", parsed_configuration)
-        write_json_as_yaml(f"./outputs/yaml/{template_file}.yaml", parsed_configuration)
-        write_dict_to_excel(f"./outputs/excel/{template_file}.xlsx", parsed_configuration)
+        return parser.result()[0][0]
     except Exception as e:
-        raise_exception_exit(e)
+        raise_exception_continue(e)
+
+
+def pre_tasks():
+    console.print("[yellow]Performing cleanup...", end="\r")
+    if os.path.exists("./outputs"):
+        shutil.rmtree("./outputs")
+    console.print("[green]Performing cleanup... [OK]")
+
+    console.print("[yellow]Creating output directory...", end="\r")
+    os.mkdir("./outputs")
+    wb = openpyxl.Workbook()
+    wb.save("./outputs/configuration.xlsx")
+    console.print("[green]Creating output directories... [OK]")
 
 
 def main():
 
-    ttp_template_file_list = [
-        "interfaces",
-    ]
+    cont = Prompt.ask(
+        "This will delete any previous output files. Continue?",
+        choices=["y", "n"],
+        default="n",
+    )
+    if cont == "y":
+        console.print("[yellow]Running pre-tasks...", end="\r")
+        pre_tasks()
+        console.print("[green]Running pre-tasks... [OK]", end="\r")
+    else:
+        SystemExit("User aborted...")
 
     configuration = read_file("./data/configuration.cfg")
+    template = read_file("./templates/template.ttp")
 
-    for template in ttp_template_file_list:
-        console.print(f"[yellow]Parsing {template}...", end="\r")
-        parse_configuration(configuration, template)
-        console.print(f"[green]Parsing {template}... [OK]")
+    console.print("[yellow]Parsing Configuration...", end="\r")
+    parsed_config = parse_configuration(configuration, template)
+    console.print("[green]Parsing Configuration... [OK]")
+
+    console.print("[yellow]Generating Output files...", end="\r")
+    write_json("./outputs/configuration.json", parsed_config)
+    write_json_as_yaml("./outputs/configuration.yaml", parsed_config)
+    for config_item, config_data in parsed_config.items():
+        write_dict_to_excel(
+            "./outputs/configuration.xlsx", config_data["data"], config_item
+        )
+    console.print("[green]Generating Output files...", end="\r")
 
 
 if __name__ == "__main__":

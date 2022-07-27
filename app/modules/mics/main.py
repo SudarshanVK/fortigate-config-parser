@@ -57,12 +57,13 @@ def write_json_as_yaml(filename: str, data: dict) -> None:
         raise_exception_exit(e)
 
 
-def write_dict_to_excel(filename: str, data: dict) -> None:
+def write_dict_to_excel(filename: str, data: dict, sheet_name: str) -> None:
     """
     Writes the data to an excel file
     """
     try:
         df = pandas.DataFrame(data)
-        df.to_excel(filename, index=False)
+        with pandas.ExcelWriter(filename, mode="a") as writer:
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
     except Exception as e:
         raise_exception_exit(e)

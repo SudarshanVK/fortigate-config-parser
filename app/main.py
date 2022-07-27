@@ -18,6 +18,8 @@ console = Console()
 from ttp import ttp
 
 
+script_path = os.path.dirname(__file__)
+
 def parse_configuration(configuration: str, template: str) -> dict:
     try:
         parser = ttp(data=configuration, template=template)
@@ -27,23 +29,24 @@ def parse_configuration(configuration: str, template: str) -> dict:
         raise_exception_continue(e)
 
 
-def pre_tasks():
+def pre_tasks(dir_path: str) -> None:
     console.print("[yellow]Performing cleanup...", end="\r")
-    if os.path.exists("./outputs"):
-        shutil.rmtree("./outputs")
+    if os.path.exists(dir_path):
+        shutil.rmtree(dir_path)
     console.print("[green]Performing cleanup... [OK]")
 
     console.print("[yellow]Creating output directory...", end="\r")
-    os.mkdir("./outputs")
+    os.mkdir(dir_path)
     wb = openpyxl.Workbook()
-    wb.save("./outputs/configuration.xlsx")
+    wb.save(f"{dir_path}/configuration.xlsx")
     console.print("[green]Creating output directories... [OK]")
 
 @click.command()
 @click.option("--configuration", "-c", required=True)
 def main(configuration):
 
-    script_path = os.path.dirname(__file__)
+    template_file = os.path.join(script_path, "templates", "template.ttp")
+    output_dir = os.path.join(script_path, "..", "outputs")
 
     cont = Prompt.ask(
         "This will delete any previous output files. Continue?",
@@ -52,13 +55,12 @@ def main(configuration):
     )
     if cont == "y":
         console.print("[yellow]Running pre-tasks...", end="\r")
-        pre_tasks()
+        pre_tasks(output_dir)
         console.print("[green]Running pre-tasks... [OK]", end="\r")
     else:
         SystemExit("User aborted...")
 
     configuration = read_file(configuration)
-    template_file = os.path.join(script_path, "templates", "template.ttp")
     template = read_file(template_file)
 
     console.print("[yellow]Parsing Configuration...", end="\r")
@@ -66,11 +68,11 @@ def main(configuration):
     console.print("[green]Parsing Configuration... [OK]")
 
     console.print("[yellow]Generating Output files...", end="\r")
-    write_json("./outputs/configuration.json", parsed_config)
-    write_json_as_yaml("./outputs/configuration.yaml", parsed_config)
+    write_json(f"{output_dir}/configuration.json", parsed_config)
+    write_json_as_yaml(f"{output_dir}/configuration.yaml", parsed_config)
     for config_item, config_data in parsed_config.items():
         write_dict_to_excel(
-            "./outputs/configuration.xlsx", config_data["data"], config_item
+            f"{output_dir}/configuration.xlsx", config_data["data"], config_item
         )
     console.print("[green]Generating Output files...", end="\r")
 

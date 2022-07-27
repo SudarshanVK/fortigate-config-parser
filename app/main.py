@@ -10,6 +10,7 @@ from rich.prompt import Prompt
 import os
 import shutil
 import openpyxl
+import click
 
 console = Console()
 
@@ -38,8 +39,11 @@ def pre_tasks():
     wb.save("./outputs/configuration.xlsx")
     console.print("[green]Creating output directories... [OK]")
 
+@click.command()
+@click.option("--configuration", "-c", required=True)
+def main(configuration):
 
-def main():
+    script_path = os.path.dirname(__file__)
 
     cont = Prompt.ask(
         "This will delete any previous output files. Continue?",
@@ -53,8 +57,9 @@ def main():
     else:
         SystemExit("User aborted...")
 
-    configuration = read_file("./data/configuration.cfg")
-    template = read_file("./templates/template.ttp")
+    configuration = read_file(configuration)
+    template_file = os.path.join(script_path, "templates", "template.ttp")
+    template = read_file(template_file)
 
     console.print("[yellow]Parsing Configuration...", end="\r")
     parsed_config = parse_configuration(configuration, template)

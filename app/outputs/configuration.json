@@ -1,0 +1,267 @@
+{
+    "interfaces": {
+        "data": [
+            {
+                "snmp-index": "1",
+                "role": "wan",
+                "lldp-reception": "enable",
+                "external": "enable",
+                "outbandwidth": "198000",
+                "type": "physical",
+                "allowaccess": "ping fgfm",
+                "vdom": "root",
+                "interface": "wan1"
+            },
+            {
+                "snmp-index": "2",
+                "role": "wan",
+                "lldp-reception": "enable",
+                "external": "enable",
+                "outbandwidth": "198000",
+                "type": "physical",
+                "allowaccess": "ping fgfm",
+                "static": "dhcp",
+                "vdom": "root",
+                "interface": "wan2"
+            },
+            {
+                "snmp-index": "3",
+                "role": "dmz",
+                "type": "physical",
+                "allowaccess": "ping https fgfm fabric",
+                "ip": "10.10.10.1 255.255.255.0",
+                "vdom": "root",
+                "interface": "dmz"
+            },
+            {
+                "snmp-index": "10",
+                "description": "\"To-LAN\"",
+                "type": "physical",
+                "vdom": "root",
+                "interface": "internal1"
+            },
+            {
+                "snmp-index": "11",
+                "description": "\"To-LAN\"",
+                "type": "physical",
+                "vdom": "root",
+                "interface": "internal2"
+            },
+            {
+                "snmp-index": "12",
+                "alias": "\"FortiExtender\"",
+                "type": "physical",
+                "allowaccess": "ping https ssh http fgfm fabric",
+                "ip": "100.64.24.237 255.255.255.252",
+                "vdom": "root",
+                "interface": "internal3"
+            },
+            {
+                "snmp-index": "23",
+                "type": "physical",
+                "status": "down",
+                "vdom": "root",
+                "interface": "internal4"
+            },
+            {
+                "snmp-index": "13",
+                "type": "physical",
+                "vdom": "root",
+                "interface": "internal5"
+            },
+            {
+                "snmp-index": "4",
+                "type": "physical",
+                "vdom": "root",
+                "interface": "a"
+            },
+            {
+                "snmp-index": "5",
+                "type": "physical",
+                "vdom": "root",
+                "interface": "b"
+            },
+            {
+                "snmp-index": "6",
+                "type": "physical",
+                "status": "down",
+                "static": "pppoe",
+                "vdom": "root",
+                "interface": "modem"
+            },
+            {
+                "snmp-index": "7",
+                "type": "tunnel",
+                "vdom": "root",
+                "interface": "ssl.root"
+            },
+            {
+                "snmp-index": "8",
+                "role": "lan",
+                "type": "hard-switch",
+                "status": "down",
+                "allowaccess": "ping https ssh fgfm fabric",
+                "ip": "192.168.1.99 255.255.255.0",
+                "vdom": "root",
+                "interface": "internal"
+            },
+            {
+                "snmp-index": "9",
+                "lldp-transmission": "enable",
+                "lldp-reception": "enable",
+                "members": "a\" \"b",
+                "type": "aggregate",
+                "allowaccess": "ping fabric",
+                "ip": "169.254.1.1 255.255.255.0",
+                "fortilink": "enable",
+                "vdom": "root",
+                "interface": "fortilink"
+            },
+            {
+                "snmp-index": "14",
+                "type": "loopback",
+                "allowaccess": "ping https ssh snmp",
+                "ip": "100.64.24.5 255.255.255.255",
+                "vdom": "root",
+                "interface": "loopback0"
+            },
+            {
+                "snmp-index": "16",
+                "role": "lan",
+                "device-identification": "enable",
+                "allowaccess": "ping",
+                "ip": "100.66.11.22 255.255.255.252",
+                "vdom": "root",
+                "interface": "ipwan1"
+            },
+            {
+                "snmp-index": "17",
+                "role": "wan",
+                "device-identification": "enable",
+                "external": "enable",
+                "allowaccess": "ping",
+                "ip": "89.147.120.215 255.255.255.254",
+                "vdom": "root",
+                "interface": "dia2"
+            },
+            {
+                "snmp-index": "18",
+                "role": "lan",
+                "device-identification": "enable",
+                "allowaccess": "ping",
+                "ip": "100.66.11.26 255.255.255.252",
+                "vdom": "root",
+                "interface": "ipwan2"
+            },
+            {
+                "snmp-index": "19",
+                "role": "wan",
+                "device-identification": "enable",
+                "type": "fext-wan",
+                "static": "dhcp",
+                "vdom": "root",
+                "interface": "fex1"
+            },
+            {
+                "snmp-index": "20",
+                "type": "tunnel",
+                "allowaccess": "ping",
+                "ip": "100.66.11.134 255.255.255.255",
+                "vdom": "root",
+                "interface": "au02-vp-02"
+            },
+            {
+                "snmp-index": "21",
+                "type": "tunnel",
+                "allowaccess": "ping",
+                "ip": "100.66.11.166 255.255.255.255",
+                "vdom": "root",
+                "interface": "au04-vp-01"
+            },
+            {
+                "snmp-index": "22",
+                "role": "lan",
+                "lldp-transmission": "enable",
+                "device-identification": "enable",
+                "members": "internal1\" \"internal2",
+                "type": "aggregate",
+                "allowaccess": "ping",
+                "ip": "192.168.5.1 255.255.255.0",
+                "vdom": "root",
+                "interface": "lag0"
+            },
+            {
+                "snmp-index": "15",
+                "role": "wan",
+                "device-identification": "enable",
+                "external": "enable",
+                "allowaccess": "ping",
+                "ip": "89.147.120.213 255.255.255.254",
+                "vdom": "root",
+                "interface": "dia1"
+            }
+        ]
+    },
+    "firewall_objects": {
+        "data": [
+            {
+                "uuid": "7a742462-c13a-51ec-12cb-aca6cd89acf1",
+                "name": "\"all\""
+            },
+            {
+                "uuid": "154aeb56-c6bd-51ec-c4d1-65232770be4c",
+                "name": "\"FIREWALL_AUTH_PORTAL_ADDRESS\""
+            },
+            {
+                "uuid": "154af4ac-c6bd-51ec-76c3-27c06cf279bb",
+                "name": "\"FABRIC_DEVICE\""
+            },
+            {
+                "associated-interface": "\"ssl.root\"",
+                "type": "iprange",
+                "uuid": "154d08b4-c6bd-51ec-61c0-b9ff10463e07",
+                "name": "\"SSLVPN_TUNNEL_ADDR1\""
+            },
+            {
+                "type": "dynamic",
+                "uuid": "17ed18fa-c7c3-51ec-50c1-c283f73dbe8c",
+                "name": "\"FCTEMS_ALL_FORTICLOUD_SERVERS\""
+            },
+            {
+                "subnet": "192.168.7.10 255.255.255.255",
+                "uuid": "ea5b02fe-e87d-51ec-45de-1058c8dc3015",
+                "name": "\"nw-ap01\""
+            },
+            {
+                "subnet": "192.168.7.11 255.255.255.255",
+                "uuid": "f55a2360-e87d-51ec-a5d9-f95c9392cb67",
+                "name": "\"nw-ap02\""
+            },
+            {
+                "subnet": "192.168.7.13 255.255.255.255",
+                "uuid": "017a06d8-e87e-51ec-ab97-93410a582ec4",
+                "name": "\"nw-ap03\""
+            },
+            {
+                "subnet": "192.168.7.14 255.255.255.255",
+                "uuid": "0ba7bf88-e87e-51ec-76cc-c7cc7b08155b",
+                "name": "\"nw-ap04\""
+            },
+            {
+                "subnet": "192.168.7.15 255.255.255.255",
+                "uuid": "17a955da-e87e-51ec-e257-f807bbfdb39b",
+                "name": "\"nw-ap05\""
+            },
+            {
+                "subnet": "192.168.7.16 255.255.255.255",
+                "uuid": "265076fe-e87e-51ec-ecc0-4471a7f569c0",
+                "name": "\"nw-ap06\""
+            },
+            {
+                "subnet": "192.168.7.17 255.255.255.255",
+                "uuid": "2e109428-e87e-51ec-6083-96f05f3296af",
+                "name": "\"nw-ap07\""
+            }
+        ]
+    }
+}

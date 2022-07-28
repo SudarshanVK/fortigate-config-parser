@@ -5,20 +5,28 @@ from modules.mics.main import (
     write_dict_to_excel,
     raise_exception_continue,
 )
+
+
+from rich import print
 from rich.console import Console
-from rich.prompt import Prompt
+from rich.prompt import Confirm
+from rich.panel import Panel
+
+console = Console()
+
+
 import os
 import shutil
 import openpyxl
 import click
-
-console = Console()
+from pathlib import Path
 
 
 from ttp import ttp
 
 
-script_path = os.path.dirname(__file__)
+script_path = Path(__file__).parent
+
 
 def parse_configuration(configuration: str, template: str) -> dict:
     try:
@@ -41,19 +49,30 @@ def pre_tasks(dir_path: str) -> None:
     wb.save(f"{dir_path}/configuration.xlsx")
     console.print("[green]Creating output directories... [OK]")
 
+
+def generate_output_files(dir_path: str, configuration: dict) -> None:
+    write_json(f"{dir_path}/configuration.json", configuration)
+    write_json_as_yaml(f"{dir_path}/configuration.yaml", configuration)
+    for config_item, config_data in configuration.items():
+        if "data" in config_data:
+            write_dict_to_excel(
+                f"{dir_path}/configuration.xlsx", config_data["data"], config_item
+            )
+    wb = openpyxl.load_workbook(f"{dir_path}/configuration.xlsx")
+    wb.remove(wb["Sheet"])
+    wb.save(filename=f"{dir_path}/configuration.xlsx")
+
+
 @click.command()
 @click.option("--configuration", "-c", required=True)
 def main(configuration):
 
-    template_file = os.path.join(script_path, "templates", "template.ttp")
-    output_dir = os.path.join(script_path, "..", "outputs")
+    template_file = script_path / "templates" / "template.ttp"
+    output_dir = script_path.parent / "output"
 
-    cont = Prompt.ask(
-        "This will delete any previous output files. Continue?",
-        choices=["y", "n"],
-        default="n",
-    )
-    if cont == "y":
+    if Confirm.ask(
+        "[yellow]This will delete any previous output files. Continue?",
+    ):
         console.print("[yellow]Running pre-tasks...", end="\r")
         pre_tasks(output_dir)
         console.print("[green]Running pre-tasks... [OK]", end="\r")
@@ -68,13 +87,10 @@ def main(configuration):
     console.print("[green]Parsing Configuration... [OK]")
 
     console.print("[yellow]Generating Output files...", end="\r")
-    write_json(f"{output_dir}/configuration.json", parsed_config)
-    write_json_as_yaml(f"{output_dir}/configuration.yaml", parsed_config)
-    for config_item, config_data in parsed_config.items():
-        write_dict_to_excel(
-            f"{output_dir}/configuration.xlsx", config_data["data"], config_item
-        )
+    generate_output_files(output_dir, parsed_config)
     console.print("[green]Generating Output files...", end="\r")
+
+    print(Panel.fit(f"[green]{output_dir}", title="Output Directory"))
 
 
 if __name__ == "__main__":

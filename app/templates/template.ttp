@@ -106,8 +106,8 @@ end {{ _end_ }}
 </group>
 
 
-## ------------------------- Firewall Objects ---------------------------
-<group name="firewall_objects">
+## ------------------------- Firewall Address Objects ---------------------------
+<group name="address-objects">
 config firewall address {{ _start_ }}
     <group name="data">
     edit {{ name }}
@@ -122,4 +122,150 @@ config firewall address {{ _start_ }}
     next {{ _end_ }}
     </group>
 end {{ _end_ }}
+</group>
+
+
+## ------------------------- Firewall Addrgrp ---------------------------
+<group name="firewall-addrgrp">
+config firewall addrgrp {{_start_}}
+	<group name="data">
+    edit {{name | ORPHRASE }}
+		set type {{type}}
+        set uuid {{ uudi }}
+        set member {{ members | ORPHRASE }}
+		set comment {{comment}}
+		set exclude {{exclude}}
+		set color {{color}}
+		set fabric-object {{disable}}
+    next{{_end_}}
+	</group>
+end{{_end_}}
+</group>
+
+
+## ------------------------- Firewall Service Custom ---------------------------
+<group name="service-custom">
+config firewall service custom {{_start_}}
+	<group name="data">
+    edit {{name}}
+        set proxy {{proxy}}
+        set category {{category}}
+        set protocol {{protocol}}
+        set helper {{helper}}
+        set check-reset-range {{check-reset-range}}
+        set comment {{comment}}
+        set color {{color}}
+        set visibility {{visibility}}
+        set fabric-object {{fabric-object}}
+        set iprange {{iprange}}
+        set fqdn {{fqdn}}
+        set tcp-portrange {{tcp-portrange}}
+        set udp-portrange {{udp-portrange}}
+        set tcp-halfclose-timer {{tcp-halfclose-timer}}
+        set tcp-halfopen-timer {{cp-halfopen-timer}}
+        set tcp-timewait-timer {{tcp-timewait-timer}}
+        set udp-idle-timer {{udp-idle-timer}}
+        set session-ttl {{session-ttl}}
+    next{{_end_}}
+	</group>
+end{{_end_}}
+</group>
+
+
+##------------------------- Firewall Service Groups ---------------------------
+<group name="service-group">
+config firewall service group{{_start_}}
+	<group name="data">
+    edit {{ name | ORPHRASE}}
+        set proxy {{proxy}}
+        set member {{ member | ORPHRASE}}
+        set comment {{comment}}
+        set color {{color}}
+        set fabric-object {{fabric-object}}
+    next{{_end_}}
+	</group>
+end{{_end_}}
+</group>
+
+
+##------------------------- Firewall Policy ---------------------------
+<group name="firewall-policy">
+config firewall policy{{_start_}}
+	<group name="data">
+    edit {{id}}
+        set status {{enable}}
+        set name {{name | ORPHRASE}}
+        set uuid {{uuid}}
+        set srcintf {{srcintf | ORPHRASE}}
+        set dstintf {{dstintf | ORPHRASE}}
+        set srcaddr {{srcaddr | ORPHRASE }}
+        set dstaddr {{dstaddr | ORPHRASE }}
+        set internet-service {{internet-service}}
+        set internet-service-src {{internet-service-src}}
+        set rtp-nat {{rtp-nat}}
+        set action {{action}}
+        set schedule {{schedule}}
+        set schedule-timeout {{chedule-timeout}}
+        set service {{service | ORPHRASE }}
+        set tos-mask {{tos-mask}}
+        set anti-replay {{anti-replay}}
+        set dynamic-shaping {{dynamic-shaping}}
+        set utm-status {{utm-status}}
+        set inspection-mode {{inspection-mode}}
+        set profile-protocol-options {{profile-protocol-options}}
+        set ssl-ssh-profile {{ssl-ssh-profile}}
+        set logtraffic {{logtraffic}}
+        set logtraffic-start {{logtraffic-start}}
+        set capture-packet {{capture-packet}}
+        set auto-asic-offload {{auto-asic-offload}}
+        set np-acceleration {{np-acceleration}}
+        set session-ttl {{session-ttl}}
+        set vlan-cos-fwd {{vlan-cos-fwd}}
+        set vlan-cos-rev {{vlan-cos-rev}}
+        set wccp {{wccp}}
+        set disclaimer {{disclaimer}}
+        set email-collect {{email-collect}}
+        set natip {{natip | ORPHRASE }}
+        set diffserv-forward {{diffserv-forward}}
+        set diffserv-reverse {{diffserv-reverse}}
+        set tcp-mss-sender {{tcp-mss-sender}}
+        set tcp-mss-receiver {{tcp-mss-receiver}}
+        set comments {{comments | ORPHRASE }}
+        set block-notification {{block-notification}}
+        set replacemsg-override-group {{replacemsg-override-group}}
+        set srcaddr-negate {{srcaddr-negate}}
+        set dstaddr-negate {{dstaddr-negate}}
+        set service-negate {{service-negate}}
+        set timeout-send-rst {{timeout-send-rst}}
+        set captive-portal-exempt {{captive-portal-exempt}}
+        set dsri {{dsri}}
+        set radius-mac-auth-bypass {{radius-mac-auth-bypass}}
+        set delay-tcp-npu-session {{delay-tcp-npu-session}}
+        set traffic-shaper {{traffic-shaper}}
+        set traffic-shaper-reverse {{traffic-shaper-reverse}}
+        set per-ip-shaper {{per-ip-shaper}}
+        set nat {{nat}}
+    next{{_end_}}
+	</group>
+end{{_end_}}
+</group>
+
+
+##------------------------- Router Static ---------------------------
+<group name="router-static">
+config router static{{_start_}}
+	<group name="data">
+    edit {{id}}
+        set status {{status}}
+        set dst {{dst | ORPHRASE}}
+        set distance {{distance}}
+        set weight {{weight}}
+        set priority {{priority}}
+        set comment {{ comment | ORPHRASE }}
+        set blackhole {{blackhole}}
+        set link-monitor-exempt {{link-monitor-exempt}}
+        set vrf {{vrf}}
+    next{{_end_}}
+	</group>
+end{{_end_}}
 </group>

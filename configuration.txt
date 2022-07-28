@@ -289,3 +289,375 @@ config firewall address
         set subnet 192.168.7.17 255.255.255.255
     next
 end
+
+
+config firewall service custom
+    edit "DNS"
+        set category "Network Services"
+        set tcp-portrange 53
+        set udp-portrange 53
+    next
+    edit "HTTP"
+        set category "Web Access"
+        set tcp-portrange 80
+    next
+    edit "HTTPS"
+        set category "Web Access"
+        set tcp-portrange 443
+    next
+    edit "IMAP"
+        set category "Email"
+        set tcp-portrange 143
+    next
+    edit "IMAPS"
+        set category "Email"
+        set tcp-portrange 993
+    next
+    edit "LDAP"
+        set category "Authentication"
+        set tcp-portrange 389
+    next
+    edit "DCE-RPC"
+        set category "Remote Access"
+        set tcp-portrange 135
+        set udp-portrange 135
+    next
+    edit "POP3"
+        set category "Email"
+        set tcp-portrange 110
+    next
+    edit "POP3S"
+        set category "Email"
+        set tcp-portrange 995
+    next
+    edit "SAMBA"
+        set category "File Access"
+        set tcp-portrange 139
+    next
+    edit "SMTP"
+        set category "Email"
+        set tcp-portrange 25
+    next
+    edit "SMTPS"
+        set category "Email"
+        set tcp-portrange 465
+    next
+    edit "KERBEROS"
+        set category "Authentication"
+        set tcp-portrange 88 464
+        set udp-portrange 88 464
+    next
+    edit "LDAP_UDP"
+        set category "Authentication"
+        set udp-portrange 389
+    next
+    edit "SMB"
+        set category "File Access"
+        set tcp-portrange 445
+    next
+    edit "ALL"
+        set category "General"
+        set protocol IP
+    next
+    edit "ALL_ICMP"
+        set category "General"
+        set protocol ICMP
+        unset icmptype
+    next
+    edit "NTP"
+        set category "Network Services"
+        set tcp-portrange 123
+        set udp-portrange 123
+    next
+    edit "PING"
+        set category "Network Services"
+        set protocol ICMP
+        set icmptype 8
+        unset icmpcode
+    next
+    edit "SNMP"
+        set category "Network Services"
+        set tcp-portrange 161-162
+        set udp-portrange 161-162
+    next
+    edit "SSH"
+        set category "Remote Access"
+        set tcp-portrange 22
+    next
+    edit "TRACEROUTE"
+        set category "Network Services"
+        set udp-portrange 33434-33535
+    next
+    edit "webproxy"
+        set proxy enable
+        set category "Web Proxy"
+        set protocol ALL
+        set tcp-portrange 0-65535:0-65535
+    next
+    edit "FortiGateAdminPort"
+        set tcp-portrange 4433
+    next
+    edit "TACACS+"
+        set tcp-portrange 49
+    next
+    edit "udp-443"
+        set udp-portrange 443
+    next
+    edit "tcp-8080"
+        set tcp-portrange 8080
+    next
+    edit "Meraki Ports"
+        set tcp-portrange 443 2195-2196 5223 80 993 7734 7752-7772 60000-61000
+        set udp-portrange 7351
+    next
+end
+
+config firewall addrgrp
+    edit "Private Address Spaces"
+        set uuid 49e6e57e-c17f-51ec-586d-dff4be338514
+        set member "Private RFC1918 10.0.0.0" "Private RFC1918 172.16.0.0" "Private RFC1918 192.168.0.0" "Private RFC6598 100.64.0.0"
+    next
+    edit "NetSG Mgmt DMZ Subnets"
+        set uuid 3d04fc60-c17f-51ec-0e13-e7a73304a5ed
+        set member "NetSG AU01 Mgmt DMZ Subnet" "NetSG AU02 Mgmt DMZ Subnet"
+    next
+    edit "NetSG NTP Servers"
+        set uuid 52ed8bdc-c17f-51ec-8732-eb6bb4f3e18c
+        set member "NetSG NTP Server 1" "NetSG NTP Server 2"
+    next
+    edit "NetSG Tacacs Servers"
+        set uuid 602507bc-c17f-51ec-b284-494cdbd261c2
+        set member "NetSG Tacacs Server 1" "NetSG Tacacs Server 2"
+    next
+    edit "Baulkham Hills Meraki APs"
+        set uuid 3e2be308-e87e-51ec-ecb0-49a688dc1ce9
+        set member "nw-ap01" "nw-ap02" "nw-ap03" "nw-ap04" "nw-ap05" "nw-ap06" "nw-ap07"
+    next
+end
+
+
+config firewall service group
+    edit "Email Access"
+        set member "DNS" "IMAP" "IMAPS" "POP3" "POP3S" "SMTP" "SMTPS"
+    next
+    edit "Web Access"
+        set member "DNS" "HTTP" "HTTPS"
+    next
+    edit "Windows AD"
+        set member "DCE-RPC" "DNS" "KERBEROS" "LDAP" "LDAP_UDP" "SAMBA" "SMB"
+    next
+    edit "Exchange Server"
+        set member "DCE-RPC" "DNS" "HTTPS"
+    next
+end
+
+
+config firewall policy
+    edit 1
+        set name "NetSG Management Inbound"
+        set uuid 652c632c-c23d-51ec-9b0c-366b86d43aa6
+        set srcintf "Zone_IPWan"
+        set dstintf "loopback0" "internal3"
+        set srcaddr "NetSG Mgmt DMZ Subnets"
+        set dstaddr "NetSG SNCK Loopback Allocation"
+        set action accept
+        set schedule "always"
+        set service "ALL_ICMP" "FortiGateAdminPort" "HTTPS" "SNMP" "SSH"
+        set logtraffic all
+    next
+    edit 2
+        set name "NetSG NTP Servers"
+        set uuid 652fad48-c23d-51ec-b6f9-837c0a35e74b
+        set srcintf "loopback0"
+        set dstintf "Zone_IPWan"
+        set srcaddr "NetSG SNCK Loopback Allocation"
+        set dstaddr "NetSG NTP Servers"
+        set action accept
+        set schedule "always"
+        set service "NTP"
+        set logtraffic all
+    next
+    edit 3
+        set name "NetSG TACACS Servers"
+        set uuid 653036be-c23d-51ec-98c9-1e91fe7e21f6
+        set srcintf "loopback0"
+        set dstintf "Zone_IPWan"
+        set srcaddr "NetSG SNCK Loopback Allocation"
+        set dstaddr "NetSG Tacacs Servers"
+        set action accept
+        set schedule "always"
+        set service "TACACS+"
+        set logtraffic all
+    next
+    edit 4
+        set name "Trusted Internal ICMP"
+        set uuid 6530c480-c23d-51ec-65f0-49633702aa26
+        set srcintf "any"
+        set dstintf "any"
+        set srcaddr "Private Address Spaces"
+        set dstaddr "Private Address Spaces"
+        set action accept
+        set schedule "always"
+        set service "PING" "TRACEROUTE"
+        set logtraffic all
+    next
+    edit 5
+        set name "LAN to IPWAN"
+        set uuid 65314c98-c23d-51ec-3c19-dbed9849c03f
+        set srcintf "Zone_Data"
+        set dstintf "Zone_IPWan"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+    edit 6
+        set name "IPWAN to LAN"
+        set uuid 6531d5c8-c23d-51ec-38ed-d0fdd6ee45ba
+        set srcintf "Zone_IPWan"
+        set dstintf "Zone_Data"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+    edit 11
+        set name "Protect Internal"
+        set uuid 4674fb24-e871-51ec-f6d9-123c05f4aa93
+        set srcintf "any"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "Private Address Spaces"
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+    edit 12
+        set name "Meraki Access Points"
+        set uuid 476097d0-e87d-51ec-bf3a-e97a6bcbeef4
+        set srcintf "Zone_Data"
+        set dstintf "virtual-wan-link"
+        set srcaddr "Baulkham Hills Meraki APs"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "Meraki Ports" "PING" "NTP"
+        set utm-status enable
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "default"
+        set ips-sensor "default"
+        set logtraffic all
+        set comments "This is only additional ports required for Speedtest.net.
+A HTTP/HTTPS rule is also needed after this for it to work"
+        set nat enable
+    next
+    edit 10
+        set name "Speedtest Access"
+        set uuid 95857f32-e870-51ec-38d8-9faf909dc008
+        set srcintf "Zone_Data"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "udp-443" "tcp-8080"
+        set utm-status enable
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "default"
+        set ips-sensor "default"
+        set logtraffic all
+        set comments "This is only additional ports required for Speedtest.net.
+A HTTP/HTTPS rule is also needed after this for it to work"
+        set nat enable
+    next
+    edit 7
+        set name "General Internet Access"
+        set uuid 6532647a-c23d-51ec-afcf-59860ca87a75
+        set srcintf "Zone_Data"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set utm-status enable
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "default"
+        set ips-sensor "default"
+        set logtraffic all
+        set nat enable
+    next
+    edit 8
+        set name "Deny and Log"
+        set uuid 73129d2e-c645-51ec-7001-bbead48d8665
+        set srcintf "any"
+        set dstintf "any"
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+    next
+end
+
+
+config router static
+    edit 1
+        set dst 10.0.0.0 255.0.0.0
+        set distance 254
+        set blackhole enable
+    next
+    edit 2
+        set dst 100.64.0.0 255.192.0.0
+        set distance 254
+        set blackhole enable
+    next
+    edit 3
+        set dst 172.16.0.0 255.240.0.0
+        set distance 254
+        set blackhole enable
+    next
+    edit 4
+        set dst 192.168.0.0 255.255.0.0
+        set distance 254
+        set blackhole enable
+    next
+    edit 5
+        set distance 210
+        set sdwan enable
+    next
+    edit 6
+        set dst 192.168.6.0 255.255.255.0
+        set gateway 192.168.5.254
+        set device "lag0"
+    next
+    edit 7
+        set dst 192.168.7.0 255.255.255.0
+        set gateway 192.168.5.254
+        set device "lag0"
+    next
+    edit 8
+        set dst 103.99.241.36 255.255.255.255
+        set gateway 89.147.120.214
+        set device "dia2"
+    next
+    edit 9
+        set dst 103.99.241.35 255.255.255.255
+        set distance 1
+        set sdwan enable
+    next
+    edit 10
+        set dst 103.99.243.129 255.255.255.255
+        set device "fex1"
+        set dynamic-gateway enable
+    next
+    edit 11
+        set dst 103.99.241.10 255.255.255.255
+        set device "fex1"
+        set dynamic-gateway enable
+    next
+end

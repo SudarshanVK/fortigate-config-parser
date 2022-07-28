@@ -6,6 +6,18 @@
 
 A toolkit to parse Fortigate CLI configuration and generate structured data.
 
+The toolkit parses the output of the following Fortigate CLI commands:
+
+```
+  - show system interface
+  - show firewall address
+  - show firewall addrgrp
+  - show firewall service custom
+  - show firewall service group
+  - show firewall policy
+  - show router static
+```
+
 # Installation
 
 If using pip,

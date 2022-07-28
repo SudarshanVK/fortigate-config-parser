@@ -119,75 +119,8 @@ config system interface
         set snmp-index 16
         set interface "wan1"
         set vlanid 300
-    next
-    edit "dia2"
-        set vdom "root"
-        set ip 89.147.120.215 255.255.255.254
-        set allowaccess ping
-        set external enable
-        set device-identification enable
-        set role wan
-        set snmp-index 17
-        set interface "wan2"
-        set vlanid 200
-    next
-    edit "ipwan2"
-        set vdom "root"
-        set ip 100.66.11.26 255.255.255.252
-        set allowaccess ping
-        set device-identification enable
-        set role lan
-        set snmp-index 18
-        set interface "wan2"
-        set vlanid 300
-    next
-    edit "fex1"
-        set vdom "root"
-        set mode dhcp
-        set type fext-wan
-        set device-identification enable
-        set role wan
-        set snmp-index 19
-    next
-    edit "au02-vp-02"
-        set vdom "root"
-        set ip 100.66.11.134 255.255.255.255
-        set allowaccess ping
-        set type tunnel
-        set remote-ip 100.66.11.129 255.255.255.224
-        set snmp-index 20
-        set interface "fex1"
-    next
-    edit "au04-vp-01"
-        set vdom "root"
-        set ip 100.66.11.166 255.255.255.255
-        set allowaccess ping
-        set type tunnel
-        set remote-ip 100.66.11.161 255.255.255.224
-        set snmp-index 21
-        set interface "fex1"
-    next
-    edit "lag0"
-        set vdom "root"
-        set ip 192.168.5.1 255.255.255.0
-        set allowaccess ping
-        set type aggregate
-        set member "internal1" "internal2"
-        set device-identification enable
-        set lldp-transmission enable
-        set role lan
-        set snmp-index 22
-    next
-    edit "dia1"
-        set vdom "root"
-        set ip 89.147.120.213 255.255.255.254
-        set allowaccess ping
-        set external enable
-        set device-identification enable
-        set role wan
-        set snmp-index 15
-        set interface "wan1"
-        set vlanid 200
+        config ipv6
+            set ip6-address fec0::0003:209:0fff:fe83:25c7/64
     next
 end
 
@@ -204,18 +137,6 @@ config firewall address
         set uuid 154af4ac-c6bd-51ec-76c3-27c06cf279bb
         set comment "IPv4 addresses of Fabric Devices."
     next
-    edit "SSLVPN_TUNNEL_ADDR1"
-        set uuid 154d08b4-c6bd-51ec-61c0-b9ff10463e07
-        set type iprange
-        set associated-interface "ssl.root"
-        set start-ip 10.212.134.200
-        set end-ip 10.212.134.210
-    next
-    edit "FCTEMS_ALL_FORTICLOUD_SERVERS"
-        set uuid 17ed18fa-c7c3-51ec-50c1-c283f73dbe8c
-        set type dynamic
-        set sub-type ems-tag
-    next
     edit "Private RFC1918 10.0.0.0"
         set uuid 9dd63474-c17e-51ec-414e-d391de278269
         set subnet 10.0.0.0 255.0.0.0
@@ -231,34 +152,6 @@ config firewall address
     edit "Private RFC6598 100.64.0.0"
         set uuid f4c6c104-c17e-51ec-79d7-995927036c68
         set subnet 100.64.0.0 255.192.0.0
-    next
-    edit "NetSG AU01 Mgmt DMZ Subnet"
-        set uuid 7193e550-c17e-51ec-5133-435ce1ae000e
-        set subnet 100.68.1.0 255.255.255.0
-    next
-    edit "NetSG AU02 Mgmt DMZ Subnet"
-        set uuid 7e302878-c17e-51ec-2aaa-add873a5d0b5
-        set subnet 100.68.2.0 255.255.255.0
-    next
-    edit "NetSG NTP Server 1"
-        set uuid 061f6e06-c17f-51ec-9ace-68cf37c88867
-        set subnet 103.74.171.50 255.255.255.255
-    next
-    edit "NetSG NTP Server 2"
-        set uuid 10262f7a-c17f-51ec-423e-2abd67c5a3e0
-        set subnet 103.99.241.50 255.255.255.255
-    next
-    edit "NetSG SNCK Loopback Allocation"
-        set uuid 8f652b66-c17e-51ec-d179-d72dbd46e0e5
-        set subnet 100.64.24.0 255.255.255.0
-    next
-    edit "NetSG Tacacs Server 1"
-        set uuid 19948d0e-c17f-51ec-208d-651c24467a49
-        set subnet 100.68.1.133 255.255.255.255
-    next
-    edit "NetSG Tacacs Server 2"
-        set uuid 2353eaf6-c17f-51ec-935d-653521fb65a3
-        set subnet 100.68.2.133 255.255.255.255
     next
     edit "nw-ap01"
         set uuid ea5b02fe-e87d-51ec-45de-1058c8dc3015
@@ -417,22 +310,6 @@ config firewall addrgrp
         set uuid 49e6e57e-c17f-51ec-586d-dff4be338514
         set member "Private RFC1918 10.0.0.0" "Private RFC1918 172.16.0.0" "Private RFC1918 192.168.0.0" "Private RFC6598 100.64.0.0"
     next
-    edit "NetSG Mgmt DMZ Subnets"
-        set uuid 3d04fc60-c17f-51ec-0e13-e7a73304a5ed
-        set member "NetSG AU01 Mgmt DMZ Subnet" "NetSG AU02 Mgmt DMZ Subnet"
-    next
-    edit "NetSG NTP Servers"
-        set uuid 52ed8bdc-c17f-51ec-8732-eb6bb4f3e18c
-        set member "NetSG NTP Server 1" "NetSG NTP Server 2"
-    next
-    edit "NetSG Tacacs Servers"
-        set uuid 602507bc-c17f-51ec-b284-494cdbd261c2
-        set member "NetSG Tacacs Server 1" "NetSG Tacacs Server 2"
-    next
-    edit "Baulkham Hills Meraki APs"
-        set uuid 3e2be308-e87e-51ec-ecb0-49a688dc1ce9
-        set member "nw-ap01" "nw-ap02" "nw-ap03" "nw-ap04" "nw-ap05" "nw-ap06" "nw-ap07"
-    next
 end
 
 
@@ -453,42 +330,6 @@ end
 
 
 config firewall policy
-    edit 1
-        set name "NetSG Management Inbound"
-        set uuid 652c632c-c23d-51ec-9b0c-366b86d43aa6
-        set srcintf "Zone_IPWan"
-        set dstintf "loopback0" "internal3"
-        set srcaddr "NetSG Mgmt DMZ Subnets"
-        set dstaddr "NetSG SNCK Loopback Allocation"
-        set action accept
-        set schedule "always"
-        set service "ALL_ICMP" "FortiGateAdminPort" "HTTPS" "SNMP" "SSH"
-        set logtraffic all
-    next
-    edit 2
-        set name "NetSG NTP Servers"
-        set uuid 652fad48-c23d-51ec-b6f9-837c0a35e74b
-        set srcintf "loopback0"
-        set dstintf "Zone_IPWan"
-        set srcaddr "NetSG SNCK Loopback Allocation"
-        set dstaddr "NetSG NTP Servers"
-        set action accept
-        set schedule "always"
-        set service "NTP"
-        set logtraffic all
-    next
-    edit 3
-        set name "NetSG TACACS Servers"
-        set uuid 653036be-c23d-51ec-98c9-1e91fe7e21f6
-        set srcintf "loopback0"
-        set dstintf "Zone_IPWan"
-        set srcaddr "NetSG SNCK Loopback Allocation"
-        set dstaddr "NetSG Tacacs Servers"
-        set action accept
-        set schedule "always"
-        set service "TACACS+"
-        set logtraffic all
-    next
     edit 4
         set name "Trusted Internal ICMP"
         set uuid 6530c480-c23d-51ec-65f0-49633702aa26

@@ -83,8 +83,8 @@ config system interface {{ _start_ }}
         set switch-controller-igmp-snooping-proxy {{switch-controller-igmp-snooping-proxy}}
         set switch-controller-igmp-snooping-fast-leave {{switch-controller-igmp-snooping-fast-leave}}
         set swc-first-create {{swc-first-create}}
-        <group name = "{{ name }}">
-        config {{ name }}
+        <group name = "ipv6">
+        config ipv6 {{_start_}}
             set ip6-mode {{ip6-mode}}
             set nd-mode {{nd-mode}}
             set ip6-address {{ip6-address | PREFIXV6}}

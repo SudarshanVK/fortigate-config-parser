@@ -169,88 +169,10 @@
                 ],
                 "ip": "100.66.11.22/30",
                 "vdom": "root",
-                "interface": "ipwan1"
-            },
-            {
-                "snmp-index": "17",
-                "role": "wan",
-                "device-identification": "enable",
-                "external": "enable",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "89.147.120.215/31",
-                "vdom": "root",
-                "interface": "dia2"
-            },
-            {
-                "snmp-index": "18",
-                "role": "lan",
-                "device-identification": "enable",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "100.66.11.26/30",
-                "vdom": "root",
-                "interface": "ipwan2"
-            },
-            {
-                "snmp-index": "19",
-                "role": "wan",
-                "device-identification": "enable",
-                "type": "fext-wan",
-                "static": "dhcp",
-                "vdom": "root",
-                "interface": "fex1"
-            },
-            {
-                "snmp-index": "20",
-                "type": "tunnel",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "100.66.11.134/32",
-                "vdom": "root",
-                "interface": "au02-vp-02"
-            },
-            {
-                "snmp-index": "21",
-                "type": "tunnel",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "100.66.11.166/32",
-                "vdom": "root",
-                "interface": "au04-vp-01"
-            },
-            {
-                "snmp-index": "22",
-                "role": "lan",
-                "lldp-transmission": "enable",
-                "device-identification": "enable",
-                "members": [
-                    "internal1",
-                    "internal2"
-                ],
-                "type": "aggregate",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "192.168.5.1/24",
-                "vdom": "root",
-                "interface": "lag0"
-            },
-            {
-                "snmp-index": "15",
-                "role": "wan",
-                "device-identification": "enable",
-                "external": "enable",
-                "allowaccess": [
-                    "ping"
-                ],
-                "ip": "89.147.120.213/31",
-                "vdom": "root",
-                "interface": "dia1"
+                "interface": "ipwan1",
+                "ipv6": {
+                    "ip6-address": "fec0::0003:209:0fff:fe83:25c7/64"
+                }
             }
         ]
     },
@@ -268,19 +190,6 @@
                 "comment": "IPv4 addresses of Fabric Devices.",
                 "uuid": "154af4ac-c6bd-51ec-76c3-27c06cf279bb",
                 "name": "FABRIC_DEVICE"
-            },
-            {
-                "end_ip": "10.212.134.210",
-                "start_ip": "10.212.134.200",
-                "associated-interface": "ssl.root",
-                "type": "iprange",
-                "uuid": "154d08b4-c6bd-51ec-61c0-b9ff10463e07",
-                "name": "SSLVPN_TUNNEL_ADDR1"
-            },
-            {
-                "type": "dynamic",
-                "uuid": "17ed18fa-c7c3-51ec-50c1-c283f73dbe8c",
-                "name": "FCTEMS_ALL_FORTICLOUD_SERVERS"
             },
             {
                 "subnet": "10.0.0.0/8",
@@ -301,41 +210,6 @@
                 "subnet": "100.64.0.0/10",
                 "uuid": "f4c6c104-c17e-51ec-79d7-995927036c68",
                 "name": "Private RFC6598 100.64.0.0"
-            },
-            {
-                "subnet": "100.68.1.0/24",
-                "uuid": "7193e550-c17e-51ec-5133-435ce1ae000e",
-                "name": "NetSG AU01 Mgmt DMZ Subnet"
-            },
-            {
-                "subnet": "100.68.2.0/24",
-                "uuid": "7e302878-c17e-51ec-2aaa-add873a5d0b5",
-                "name": "NetSG AU02 Mgmt DMZ Subnet"
-            },
-            {
-                "subnet": "103.74.171.50/32",
-                "uuid": "061f6e06-c17f-51ec-9ace-68cf37c88867",
-                "name": "NetSG NTP Server 1"
-            },
-            {
-                "subnet": "103.99.241.50/32",
-                "uuid": "10262f7a-c17f-51ec-423e-2abd67c5a3e0",
-                "name": "NetSG NTP Server 2"
-            },
-            {
-                "subnet": "100.64.24.0/24",
-                "uuid": "8f652b66-c17e-51ec-d179-d72dbd46e0e5",
-                "name": "NetSG SNCK Loopback Allocation"
-            },
-            {
-                "subnet": "100.68.1.133/32",
-                "uuid": "19948d0e-c17f-51ec-208d-651c24467a49",
-                "name": "NetSG Tacacs Server 1"
-            },
-            {
-                "subnet": "100.68.2.133/32",
-                "uuid": "2353eaf6-c17f-51ec-935d-653521fb65a3",
-                "name": "NetSG Tacacs Server 2"
             },
             {
                 "subnet": "192.168.7.10/32",
@@ -375,83 +249,24 @@
         ]
     },
     "firewall-addrgrp": {
-        "data": [
-            {
-                "members": [
-                    "Private",
-                    "RFC1918",
-                    "10.0.0.0",
-                    "Private",
-                    "RFC1918",
-                    "172.16.0.0",
-                    "Private",
-                    "RFC1918",
-                    "192.168.0.0",
-                    "Private",
-                    "RFC6598",
-                    "100.64.0.0"
-                ],
-                "uudi": "49e6e57e-c17f-51ec-586d-dff4be338514",
-                "name": "Private Address Spaces"
-            },
-            {
-                "members": [
-                    "NetSG",
-                    "AU01",
-                    "Mgmt",
-                    "DMZ",
-                    "Subnet",
-                    "NetSG",
-                    "AU02",
-                    "Mgmt",
-                    "DMZ",
-                    "Subnet"
-                ],
-                "uudi": "3d04fc60-c17f-51ec-0e13-e7a73304a5ed",
-                "name": "NetSG Mgmt DMZ Subnets"
-            },
-            {
-                "members": [
-                    "NetSG",
-                    "NTP",
-                    "Server",
-                    "1",
-                    "NetSG",
-                    "NTP",
-                    "Server",
-                    "2"
-                ],
-                "uudi": "52ed8bdc-c17f-51ec-8732-eb6bb4f3e18c",
-                "name": "NetSG NTP Servers"
-            },
-            {
-                "members": [
-                    "NetSG",
-                    "Tacacs",
-                    "Server",
-                    "1",
-                    "NetSG",
-                    "Tacacs",
-                    "Server",
-                    "2"
-                ],
-                "uudi": "602507bc-c17f-51ec-b284-494cdbd261c2",
-                "name": "NetSG Tacacs Servers"
-            },
-            {
-                "members": [
-                    "nw-ap01",
-                    "nw-ap02",
-                    "nw-ap03",
-                    "nw-ap04",
-                    "nw-ap05",
-                    "nw-ap06",
-                    "nw-ap07"
-                ],
-                "uudi": "3e2be308-e87e-51ec-ecb0-49a688dc1ce9",
-                "name": "Baulkham Hills Meraki APs"
-            }
-        ]
+        "data": {
+            "members": [
+                "Private",
+                "RFC1918",
+                "10.0.0.0",
+                "Private",
+                "RFC1918",
+                "172.16.0.0",
+                "Private",
+                "RFC1918",
+                "192.168.0.0",
+                "Private",
+                "RFC6598",
+                "100.64.0.0"
+            ],
+            "uudi": "49e6e57e-c17f-51ec-586d-dff4be338514",
+            "name": "Private Address Spaces"
+        }
     },
     "service-custom": {
         "data": [
@@ -631,96 +446,6 @@
     },
     "firewall-policy": {
         "data": [
-            {
-                "logtraffic": "all",
-                "service": [
-                    "ALL_ICMP",
-                    "FortiGateAdminPort",
-                    "HTTPS",
-                    "SNMP",
-                    "SSH"
-                ],
-                "schedule": "always",
-                "action": "accept",
-                "dstaddr": [
-                    "NetSG",
-                    "SNCK",
-                    "Loopback",
-                    "Allocation"
-                ],
-                "srcaddr": [
-                    "NetSG",
-                    "Mgmt",
-                    "DMZ",
-                    "Subnets"
-                ],
-                "dstintf": [
-                    "loopback0",
-                    "internal3"
-                ],
-                "srcintf": [
-                    "Zone_IPWan"
-                ],
-                "uuid": "652c632c-c23d-51ec-9b0c-366b86d43aa6",
-                "name": "NetSG Management Inbound",
-                "id": "1"
-            },
-            {
-                "logtraffic": "all",
-                "service": [
-                    "NTP"
-                ],
-                "schedule": "always",
-                "action": "accept",
-                "dstaddr": [
-                    "NetSG",
-                    "NTP",
-                    "Servers"
-                ],
-                "srcaddr": [
-                    "NetSG",
-                    "SNCK",
-                    "Loopback",
-                    "Allocation"
-                ],
-                "dstintf": [
-                    "Zone_IPWan"
-                ],
-                "srcintf": [
-                    "loopback0"
-                ],
-                "uuid": "652fad48-c23d-51ec-b6f9-837c0a35e74b",
-                "name": "NetSG NTP Servers",
-                "id": "2"
-            },
-            {
-                "logtraffic": "all",
-                "service": [
-                    "TACACS+"
-                ],
-                "schedule": "always",
-                "action": "accept",
-                "dstaddr": [
-                    "NetSG",
-                    "Tacacs",
-                    "Servers"
-                ],
-                "srcaddr": [
-                    "NetSG",
-                    "SNCK",
-                    "Loopback",
-                    "Allocation"
-                ],
-                "dstintf": [
-                    "Zone_IPWan"
-                ],
-                "srcintf": [
-                    "loopback0"
-                ],
-                "uuid": "653036be-c23d-51ec-98c9-1e91fe7e21f6",
-                "name": "NetSG TACACS Servers",
-                "id": "3"
-            },
             {
                 "logtraffic": "all",
                 "service": [

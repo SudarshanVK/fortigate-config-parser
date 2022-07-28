@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "pyproject-cookiecutter"
+name = "Fortigate Configuartion parser"
 version = "0.1.0"
-description = ""
+description = "A toolkit to parse Fortigate CLI configuration files and generate structured data"
 authors = ["Sudarshan V <sudarshanv@Sudarshans-MacBook-Pro-2.local>"]
 
 [tool.poetry.dependencies]

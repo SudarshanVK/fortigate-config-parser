@@ -61,7 +61,9 @@ def generate_output_files(dir_path: str, configuration: dict) -> None:
 
 
 @click.command()
-@click.option("--configuration", "-c", required=True)
+@click.option(
+    "--configuration", "-c", required=True, help="Path to configuration file", type=str
+)
 def main(configuration):
 
     template_file = script_path / "templates" / "template.ttp"

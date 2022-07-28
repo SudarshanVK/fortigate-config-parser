@@ -1,0 +1,6 @@
+rich==12.5.1
+PyYAML==6.0
+pandas==1.4.3
+ttp==0.9.1
+openpyxl==3.0.10
+click==8.1.3

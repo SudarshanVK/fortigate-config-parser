@@ -2,7 +2,7 @@
 # Github actions workflow file
 name: "pyproject-cookiecutter"
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches:
       - main

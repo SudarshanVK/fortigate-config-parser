@@ -14,16 +14,13 @@ from rich.panel import Panel
 
 console = Console()
 
-
 import os
 import shutil
 import openpyxl
 import click
 from pathlib import Path
 
-
 from ttp import ttp
-
 
 script_path = Path(__file__).parent
 
@@ -68,7 +65,7 @@ def generate_output_files(dir_path: str, configuration: dict) -> None:
 def main(configuration):
 
     template_file = script_path / "templates" / "template.ttp"
-    output_dir = script_path.parent / "output"
+    output_dir = script_path.parent / "outputs"
 
     if Confirm.ask(
         "[yellow]This will delete any previous output files. Continue?",

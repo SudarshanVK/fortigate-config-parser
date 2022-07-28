@@ -1,3 +1,14 @@
+<macro>
+def remove_quotes(data):
+    return data.replace('"', '')
+
+def convert_to_list(data):
+    data = data.replace('"', '')
+    return data.split(" ")
+
+</macro>
+
+
 ## ------------------------- Interfaces ---------------------------
 <group name ="interfaces">
 config system interface {{ _start_ }}
@@ -10,8 +21,8 @@ config system interface {{ _start_ }}
         set dhcp-relay-interface-select-method {{dhcp-relay-interface-select-method}}
         set dhcp-relay-service {{dhcp-relay-service}}
         set management-ip {{ management_ip | ORPHRASE }}
-        set ip {{ ip | ORPHRASE }}
-        set allowaccess {{ allowaccess | ORPHRASE }}
+        set ip {{ ip | PHRASE | to_ip | with_prefixlen }}
+        set allowaccess {{ allowaccess | ORPHRASE | macro("convert_to_list")}}
         set fail-detect {{fail-detect}}
         set arpforward {{arpforward}}
         set broadcast-forward {{broadcast-forward}}
@@ -30,7 +41,7 @@ config system interface {{ _start_ }}
         set netbios-forward {{netbios-forward}}
         set wins-ip {{wins-ip}}
         set type {{type}}
-        set member "{{ members | ORPHRASE }}"
+        set member "{{ members | ORPHRASE | macro("convert_to_list") }}"
         set netflow-sampler {{netflow-sampler}}
         set sflow-sampler {{sflow-sampler}}
         set src-check {{src-check}}
@@ -48,8 +59,8 @@ config system interface {{ _start_ }}
         set disconnect-threshold {{disconnect-threshold}}
         set weight {{weight}}
         set external {{external}}
-        set description {{description}}
-        set alias {{alias}}
+        set description {{description | ORPHRASE | macro("remove_quotes")}}
+        set alias {{alias | macro("remove_quotes")}}
         set security-mode {{security-mode}}
         set device-identification {{device-identification}}
         set lldp-reception {{lldp-reception}}
@@ -76,7 +87,7 @@ config system interface {{ _start_ }}
         config {{ name }}
             set ip6-mode {{ip6-mode}}
             set nd-mode {{nd-mode}}
-            set ip6-address {{ip6-address}}
+            set ip6-address {{ip6-address | PREFIXV6}}
             set icmp6-send-redirect {{icmp6-send-redirect}}
             set ra-send-mtu {{ra-send-mtu}}
             set ip6-reachable-time {{ip6-reachable-time}}
@@ -110,15 +121,17 @@ end {{ _end_ }}
 <group name="address-objects">
 config firewall address {{ _start_ }}
     <group name="data">
-    edit {{ name }}
+    edit {{ name | ORPHRASE | macro("remove_quotes") }}
         set uuid {{ uuid }}
         set type {{ type }}
-        set comment {{ comment }}
-        set associated-interface {{ associated-interface }}
+        set comment {{ comment | ORPHRASE | macro("remove_quotes")}}
+        set associated-interface {{ associated-interface | macro("remove_quotes")}}
         set color {{color}}
         set allow-routing {{allow-routing}}
         set fabric-object {{fabric-object}}
-        set subnet {{ subnet | ORPHRASE }}
+        set subnet {{ subnet | PHRASE | to_ip | with_prefixlen }}
+        set start-ip {{ start_ip | is_ip }}
+        set end-ip {{ end_ip | is_ip }}
     next {{ _end_ }}
     </group>
 end {{ _end_ }}
@@ -129,11 +142,11 @@ end {{ _end_ }}
 <group name="firewall-addrgrp">
 config firewall addrgrp {{_start_}}
 	<group name="data">
-    edit {{name | ORPHRASE }}
+    edit {{name | ORPHRASE | macro("remove_quotes") }}
 		set type {{type}}
         set uuid {{ uudi }}
-        set member {{ members | ORPHRASE }}
-		set comment {{comment}}
+        set member {{ members | ORPHRASE | macro("convert_to_list") }}
+		set comment {{comment | ORPHRASE | macro("remove_quotes")}}
 		set exclude {{exclude}}
 		set color {{color}}
 		set fabric-object {{disable}}
@@ -147,9 +160,9 @@ end{{_end_}}
 <group name="service-custom">
 config firewall service custom {{_start_}}
 	<group name="data">
-    edit {{name}}
+    edit {{name | ORPHRASE | macro("remove_quotes")}}
         set proxy {{proxy}}
-        set category {{category}}
+        set category {{category | macro("remove_quotes")}}
         set protocol {{protocol}}
         set helper {{helper}}
         set check-reset-range {{check-reset-range}}
@@ -176,10 +189,10 @@ end{{_end_}}
 <group name="service-group">
 config firewall service group{{_start_}}
 	<group name="data">
-    edit {{ name | ORPHRASE}}
+    edit {{ name | ORPHRASE | macro("remove_quotes") }}
         set proxy {{proxy}}
-        set member {{ member | ORPHRASE}}
-        set comment {{comment}}
+        set member {{ members | ORPHRASE | macro("convert_to_list") }}
+        set comment {{comment | ORPHRASE | macro("remove_quotes")}}
         set color {{color}}
         set fabric-object {{fabric-object}}
     next{{_end_}}
@@ -194,26 +207,26 @@ config firewall policy{{_start_}}
 	<group name="data">
     edit {{id}}
         set status {{enable}}
-        set name {{name | ORPHRASE}}
+        set name {{name | ORPHRASE | macro("remove_quotes") }}
         set uuid {{uuid}}
-        set srcintf {{srcintf | ORPHRASE}}
-        set dstintf {{dstintf | ORPHRASE}}
-        set srcaddr {{srcaddr | ORPHRASE }}
-        set dstaddr {{dstaddr | ORPHRASE }}
+        set srcintf {{srcintf | ORPHRASE | macro("convert_to_list")}}
+        set dstintf {{dstintf | ORPHRASE | macro("convert_to_list")}}
+        set srcaddr {{srcaddr | ORPHRASE | macro("convert_to_list")}}
+        set dstaddr {{dstaddr | ORPHRASE | macro("convert_to_list")}}
         set internet-service {{internet-service}}
         set internet-service-src {{internet-service-src}}
         set rtp-nat {{rtp-nat}}
         set action {{action}}
-        set schedule {{schedule}}
+        set schedule {{schedule | macro("remove_quotes") }}
         set schedule-timeout {{chedule-timeout}}
-        set service {{service | ORPHRASE }}
+        set service {{service | ORPHRASE | macro("convert_to_list") }}
         set tos-mask {{tos-mask}}
         set anti-replay {{anti-replay}}
         set dynamic-shaping {{dynamic-shaping}}
         set utm-status {{utm-status}}
         set inspection-mode {{inspection-mode}}
         set profile-protocol-options {{profile-protocol-options}}
-        set ssl-ssh-profile {{ssl-ssh-profile}}
+        set ssl-ssh-profile {{ssl-ssh-profile | macro("remove_quotes")}}
         set logtraffic {{logtraffic}}
         set logtraffic-start {{logtraffic-start}}
         set capture-packet {{capture-packet}}
@@ -230,7 +243,7 @@ config firewall policy{{_start_}}
         set diffserv-reverse {{diffserv-reverse}}
         set tcp-mss-sender {{tcp-mss-sender}}
         set tcp-mss-receiver {{tcp-mss-receiver}}
-        set comments {{comments | ORPHRASE }}
+        set comments {{comments | ORPHRASE | macro("remove_quotes")}}
         set block-notification {{block-notification}}
         set replacemsg-override-group {{replacemsg-override-group}}
         set srcaddr-negate {{srcaddr-negate}}
@@ -257,11 +270,11 @@ config router static{{_start_}}
 	<group name="data">
     edit {{id}}
         set status {{status}}
-        set dst {{dst | ORPHRASE}}
+        set dst {{dst | PHRASE | to_ip | with_prefixlen}}
         set distance {{distance}}
         set weight {{weight}}
         set priority {{priority}}
-        set comment {{ comment | ORPHRASE }}
+        set comment {{ comment | ORPHRASE | macro("remove_quotes")}}
         set blackhole {{blackhole}}
         set link-monitor-exempt {{link-monitor-exempt}}
         set vrf {{vrf}}

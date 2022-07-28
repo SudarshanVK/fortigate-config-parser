@@ -45,7 +45,7 @@ A sample execution screenshot is as below
 The toolkit outputs the parsed configuration in three formats: JSON, YAML and XLSX.
 The outputs are stores in a dedicated folder in the parent directory.
 
-Sample outputs can be found [here](./output)
+Sample outputs can be found [here](./outputs)
 
 # Authors
 

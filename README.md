@@ -11,6 +11,8 @@ A toolkit to parse Fortigate CLI configuration and generate structured data.
 If using python virtual environment,
 
 ```
+git clone https://github.com/SudarshanVK/fortigate-config-parser.git
+cd fortigate-config-parser
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -19,7 +21,10 @@ pip install -r requirements.txt
 If using poetry,
 
 ```
+git clone https://github.com/SudarshanVK/fortigate-config-parser.git
+cd fortigate-config-parser
 poetry install
+source .venv/bin/activate
 ```
 
 # Execution

@@ -8,7 +8,7 @@ A toolkit to parse Fortigate CLI configuration and generate structured data.
 
 # Installation
 
-If using python virtual environment,
+If using pip,
 
 ```
 git clone https://github.com/SudarshanVK/fortigate-config-parser.git

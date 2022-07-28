@@ -1,6 +1,6 @@
 ---
 # Github actions workflow file
-name: "pyproject-cookiecutter"
+name: "Fortigate Configuration parser"
 
 on: # yamllint disable-line rule:truthy
   push:
